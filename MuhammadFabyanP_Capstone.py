@@ -70,9 +70,26 @@ class Supermarket:
         print("Nama Toko\t: ", self.nama)
         return False
     
+    def FuncPembelian(self):
+        NamaProduk = input("Masukkan nama produk: ")
+        for produk in self.Produks:
+            if produk['nama'] == NamaProduk.capitalize():
+                Jumlah = int(input("Masukkan jumlah: "))
+                if Jumlah <= produk['stok']:
+                    produk['stok'] -= Jumlah
+                    print("Anda membeli", NamaProduk, "sebanyak", Jumlah)
+                    self.Pemasukan += produk['harga'] * Jumlah
+                    if produk['stok'] == 0:
+                        self.Produks.remove(produk)
+                else:
+                    print("Stok",NamaProduk,"Tidak cukup")
+                return
+        print("Produk", NamaProduk, "tidak ditemukan")
+    
     def FuncExit(self):
         print("Terima kasih telah menggunakan layanan kami")
         exit()
+        
 KosongProd = []
 Supermarket = Supermarket("Purwadhika Berkah")
 
@@ -138,18 +155,7 @@ while True:
                     print("Maaf, saat ini tidak ada produk yang tersedia")
                 else:
                     Supermarket.FuncTampilkan()
-                    NamaProduk = input("Masukkan nama produk: ")
-                    jumlah = int(input("Masukkan jumlah: "))
-                    for produk in Supermarket.Produks:
-                        if produk['nama'] == NamaProduk.capitalize():
-                            if produk['stok'] >= jumlah:
-                                produk['stok'] -= jumlah
-                                print("Anda membeli", NamaProduk, "sebanyak", jumlah)
-                                Supermarket.Pemasukan += produk['harga'] * jumlah
-                                if produk['stok'] == 0:
-                                    Supermarket.Produks.remove(produk)
-                            else:
-                                print("Stok", NamaProduk, "tidak cukup")
+                    Supermarket.FuncPembelian()
             elif pilihan == 2:
                 Supermarket.FuncTampilkan()
             elif pilihan == 3:
